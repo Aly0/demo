@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>domReady</title>
+    <script src="js/domReady.js"></script>
+    <script>
+        myReady(function(){
+        //   document.getElementById('header').style.cssText="color: red;font-size:18px";
+        document.getElementsByTagName('p')[0].style.cssText="color: red;font-size:18px";
+        });
+    </script>
+</head>
+<body>
+    <p id="header">这是一段用来测试的文字</p>
+    <dl>
+        <dt>我没有缩进</dt>
+        <dd>我自动缩进</dd>
+        <dt>我没有缩进</dt>
+        <dd>我自动缩进</dd>
+    </dl>
+   
+</body>
+</html>

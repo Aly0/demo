@@ -1,0 +1,12 @@
+#sidlingdoors{
+    height: 500px;
+    overflow: hidden;
+    position:relative;
+    border:1px solid #ccc;
+    margin-left:200px;
+    margin-top:20px;
+}
+#sidlingdoors img{
+    position: absolute;
+    left:0;
+}
