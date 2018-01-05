@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z-index属性</title>
+    <style type="text/css">
+        html,body,div{
+            margin:0;
+            padding:0;
+        }
+        .box{
+            width: 100%;
+            height:100px;
+            text-align:center;
+        }
+        .cover{
+            margin-top:-30px;
+        }
+        .z-index-negative{
+            background-color:darkblue;
+            position: relative;
+            z-index: -1; 
+        }
+        .z-block{
+            background-color:darkcyan;
+        }
+        .z-inlne-block{
+            background-color:darkgoldenrod;
+            display: inline-block;
+        }
+        .z-index0{
+            background-color:rgb(0, 95, 139);
+            position: relative;
+            z-index: auto; 
+        }
+        .z-index-positive{
+            background-color:rgb(139, 0, 109);
+            position: relative;
+            z-index: 1;  
+        }
+        .z-float{
+            background-color:rgb(123, 0, 139);
+            float:left;
+        }
+        .clear{
+           clear:both;
+        }
+        .z-cascading{
+            font-size:22px;
+            color:red;
+            margin-top:30px;
+            text-align: center;
+        }
+        .box:hover{
+            border: 3px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="z-index-negative box">负</div>
+    <div class="z-block box cover">块</div>
+    <div class="z-float box cover">浮</div>
+    <div class="z-inlne-block box cover clear">内</div>
+    <div class="z-index0 box cover">零</div>
+    <div class="z-index-positive box cover">正</div>
+    <div class="z-cascading">层叠顺序：层叠上下文background/border<负z-index<块状水平盒子<'float'浮动盒子<'inline/inline-block'水平盒子<'z-index:auto'<正z-index</div>
+</body>
+</html>

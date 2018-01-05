@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Position属性</title>
+    <style type="text/css">
+        .div1{
+            width:200px;
+            height:200px;
+            background: red;
+            position:relative;
+            top:0;
+            left:100px;
+        }
+        .div2{
+            width:200px;
+            height:200px;
+            background: green;
+            position:relative;
+            top:-50px;
+            left:100px;
+        }
+        .div3{
+            width:200px;
+            height:200px;
+            background: blue;
+            position:absolute;
+            bottom:-200px;
+            left:100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 相对定位，层叠后来居上 -->
+    <div class="div1"></div>
+    <div class="div2"></div>
+
+    <!-- 绝对定位，脱离文档流，其高度不在html高度中 -->
+    <div class="div3"></div>
+</body>
+</html>
