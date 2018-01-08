@@ -33,7 +33,7 @@
         .z-index0{
             background-color:rgb(0, 95, 139);
             position: relative;
-            z-index: auto; 
+            z-index: 0; 
         }
         .z-index-positive{
             background-color:rgb(139, 0, 109);
@@ -56,15 +56,32 @@
         .box:hover{
             border: 3px solid red;
         }
+        .test1{
+            width:300px;
+            height:100px;
+            float:left;
+            background: red;
+        }
+        .test2{
+            width:100px;
+            height:100px;
+            display:inline-block;
+            background: blue;
+            margin-left:-200px;
+        }
     </style>
 </head>
 <body>
     <div class="z-index-negative box">负</div>
     <div class="z-block box cover">块</div>
     <div class="z-float box cover">浮</div>
-    <div class="z-inlne-block box cover clear">内</div>
+    <div class="z-inlne-block box cover">内</div>
     <div class="z-index0 box cover">零</div>
     <div class="z-index-positive box cover">正</div>
     <div class="z-cascading">层叠顺序：层叠上下文background/border<负z-index<块状水平盒子<'float'浮动盒子<'inline/inline-block'水平盒子<'z-index:auto'<正z-index</div>
+
+    <div class="test1">浮动</div>
+    <div class="test2">行内块</div>
+
 </body>
 </html>

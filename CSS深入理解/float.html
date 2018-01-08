@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Float属性</title>
+    <style type="text/css">
+        html,body,div,img{
+            margin:0;
+            padding:0;
+        }
+        .float-left{
+            float:left;
+            overflow:hidden;
+        }
+        .set{
+            width:200px;
+            height:200px;
+            margin-right:15px;
+        }
+        .words{
+            font-size:16px;
+            line-height:30px;
+        }
+        .box{
+            width:600px;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:50px;
+            overflow: hidden;
+            background: lightblue;
+        } 
+        .reset{
+            padding:20px;
+        }
+        .clearfix{
+            *zoom: 1;
+        }
+        .clearfix:after{
+            display: block;
+            content: '';
+            visibility: hidden;
+            height:0;
+            clear:both;
+        }
+        .img-box{
+            width:100px;
+        }
+        .img-box img{
+            width: 100%;
+        }
+        .img-float-left{
+            float:left;
+        }
+        .text-float-left{
+            width:100%;
+            float:left;
+        }
+        .img-float-right{
+            float:right;
+        }
+        .text-float-right,.margin-r{
+            margin-right:120px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 实现文字环绕 -->
+   <div class="float-left">
+       <img src="../DOM探索/滑动门/images/1.jpg" alt="图片" class="set">
+   </div>
+   <div class="words">包含块：浮动元素的包含块就是离浮动元素最近的块级祖先元素，前面叙述的例子中，div.box就是span元素的包含块。
+        了解完包含块的概念之后，首先要说明的浮动元素的第一个特性：不管一个元素是行内元素还是块级元素，如果被设置了浮动，那浮动元素会生成一个块级框，可以设置它的width和height，因此float常常用于制作横向配列的菜单，可以设置大小并且横向排列。
+        浮动元素的展示在不同情况下会有不同的规则，下面我们来一一说明这些规则。
+        1.浮动元素在浮动的时候，其margin不会超过包含块的padding
+        这一点很简单，浮动元素的浮动位置不能超过包含块的内边界
+        1 .box { background: #00ff90; padding: 10px; width: 500px; height: 400px; }
+        2         .rule1 { float: left; margin: 10px; padding: 10px; background: #ff6a00; width: 100px; text-align: center; }
+        效果图这个例子中，box的padding是10px，浮动元素的margin是10px，合起来为20px，即浮动元素不会超过包含块的padding。
+        PS：如果想要元素超出，可以设置margin属性 2.如果有多个浮动元素，后面的浮动元素的margin不会超过前面浮动元素的margin
+        简单说就是如果有多个浮动元素，浮动元素会按顺序排下来而不会发生重叠的现象。
+        修改前面例子中的HTML代码如下：包含块：浮动元素的包含块就是离浮动元素最近的块级祖先元素，前面叙述的例子中，div.box就是span元素的包含块。
+        了解完包含块的概念之后，首先要说明的浮动元素的第一个特性：不管一个元素是行内元素还是块级元素，如果被设置了浮动，那浮动元素会生成一个块级框，可以设置它的width和height，因此float常常用于制作横向配列的菜单，可以设置大小并且横向排列。
+        浮动元素的展示在不同情况下会有不同的规则，下面我们来一一说明这些规则。
+        1.浮动元素在浮动的时候，其margin不会超过包含块的padding
+        这一点很简单，浮动元素的浮动位置不能超过包含块的内边界
+        1 .box { background: #00ff90; padding: 10px; width: 500px; height: 400px; }
+        2         .rule1 { float: left; margin: 10px; padding: 10px; background: #ff6a00; width: 100px; text-align: center; }
+        这个例子中，box的padding是10px，浮动元素的margin是10px，合起来为20px，即浮动元素不会超过包含块的padding。
+        PS：如果想要元素超出，可以设置margin属性
+        2.如果有多个浮动元素，后面的浮动元素的margin不会超过前面浮动元素的margin
+        简单说就是如果有多个浮动元素，浮动元素会按顺序排下来而不会发生重叠的现象。
+        修改前面例子中的HTML代码如下：</div>
+
+
+        <!-- 图片左浮动 -->
+        <div class="box">
+            <div class="reset">
+                <div class="margin-r">
+                    <div class="text-float-left">
+                        包含块：浮动元素的包含块就是离浮动元素最近的块级祖先元素，前面叙述的例子中，div.box就是span元素的包含块。
+                        了解完包含块的概念之后，首先要说明的浮动元素的第一个特性：不管一个元素是行内元素还是块级元素，如果被设置了浮动，那浮动元素会生成一个块级框，可以设置它的width和height，因此float常常用于制作横向配列的菜单，可以设置大小并且横向排列。
+                        浮动元素的展示在不同情况下会有不同的规则，下面我们来一一说明这些规则。
+                        1.浮动元素在浮动的时候，其margin不会超过包含块的padding
+                        这一点很简单，浮动元素的浮动位置不能超过包含块的内边界
+                        1 .box { background: #00ff90; padding: 10px; width: 500px; height: 400px; }
+                        2         .rule1 { float: left; margin: 10px; padding: 10px; background: #ff6a00; width: 100px; text-align: center; }
+                        效果图这个例子中，box的padding是10px，浮动元素的margin是10px，合起来为20px，即浮动元素不会超过包含块的padding。
+                        PS：如果想要元素超出，可以设置margin属性 2.如果有多个浮动元素，后面的浮动元素的margin不会超过前面浮动元素的margin
+                        简单说就是如果有多个浮动元素，浮动元素会按顺序排下来而不会发生重叠的现象。
+                    </div>
+                </div>
+                <div class="img-box img-float-left">
+                    <img src="../DOM探索/滑动门/images/1.jpg" alt="图片">
+                </div>
+            </div>
+        </div>
+        <!-- 图片右浮动 -->
+        <div class="box">
+            <div class="reset clearfix">
+                <div class="img-box img-float-right">
+                    <img src="../DOM探索/滑动门/images/1.jpg" alt="图片">
+                </div>
+                <div class="text-float-right">
+                    包含块：浮动元素的包含块就是离浮动元素最近的块级祖先元素，前面叙述的例子中，div.box就是span元素的包含块。
+                    了解完包含块的概念之后，首先要说明的浮动元素的第一个特性：不管一个元素是行内元素还是块级元素，如果被设置了浮动，那浮动元素会生成一个块级框，可以设置它的width和height，因此float常常用于制作横向配列的菜单，可以设置大小并且横向排列。
+                    浮动元素的展示在不同情况下会有不同的规则，下面我们来一一说明这些规则。
+                    1.浮动元素在浮动的时候，其margin不会超过包含块的padding
+                    这一点很简单，浮动元素的浮动位置不能超过包含块的内边界
+                    1 .box { background: #00ff90; padding: 10px; width: 500px; height: 400px; }
+                    2         .rule1 { float: left; margin: 10px; padding: 10px; background: #ff6a00; width: 100px; text-align: center; }
+                    效果图这个例子中，box的padding是10px，浮动元素的margin是10px，合起来为20px，即浮动元素不会超过包含块的padding。
+                    PS：如果想要元素超出，可以设置margin属性 2.如果有多个浮动元素，后面的浮动元素的margin不会超过前面浮动元素的margin
+                    简单说就是如果有多个浮动元素，浮动元素会按顺序排下来而不会发生重叠的现象。
+                </div>
+            </div>
+        </div>
+</body>
+</html>
