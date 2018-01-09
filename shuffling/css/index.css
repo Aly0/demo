@@ -1,0 +1,49 @@
+.ui-shuffling-container{
+    width:600px;
+    height:400px;
+    overflow:hidden;
+    position: relative;
+}
+.ui-shuffling-imgs{
+    font-size: 0;
+    position: relative;
+}
+.ui-shuffling-change-button{
+    position: absolute;
+    bottom: 8px;
+    left:50%;
+    margin-left:-49px;
+}
+.ui-shuffling-round-button{
+    display: inline-block;
+    width: 10px;
+    height:10px;
+    border-radius: 50%;
+    font-size: 0px;
+    background: #fff;
+    margin-right:6px;
+    cursor: pointer;
+}
+.shuffling-img-active{
+    background: orange;
+}
+.ui-shuffling-button{
+    position:absolute;
+    top:50%;
+    margin-top:-23px;
+    font-size:40px;
+    font-weight: bold;
+    color:#fff;
+    cursor: pointer; 
+}
+.ui-shuffling-button>a{
+    display: inline-block;
+    padding:6px;
+    background:rgba(0, 0, 0, .3);
+}
+.ui-shuffling-prev-button{
+    left:0;
+}
+.ui-shuffling-next-button{
+    right:0;
+}

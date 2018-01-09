@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>shuffling</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="ui-shuffling-container" id="shuffling_container">
+        <div class="ui-shuffling-imgs">
+            <img src="images/1.jpg" alt="1" class="ui-shuffling-img"/>
+            <img src="images/2.jpg" alt="2" class="ui-shuffling-img"/>
+            <img src="images/3.jpg" alt="3" class="ui-shuffling-img"/>
+            <img src="images/4.jpg" alt="4" class="ui-shuffling-img"/>
+            <img src="images/5.jpg" alt="5" class="ui-shuffling-img"/>
+            <img src="images/1.jpg" alt="1" class="ui-shuffling-img"/>
+        </div>
+        <div class="ui-shuffling-change-button">
+            <span index="0" class="ui-shuffling-round-button shuffling-img-active"></span>
+            <span index="1" class="ui-shuffling-round-button"></span>
+            <span index="2" class="ui-shuffling-round-button"></span>
+            <span index="3" class="ui-shuffling-round-button"></span>
+            <span index="4" class="ui-shuffling-round-button"></span>
+        </div>
+        <div class="ui-shuffling-button ui-shuffling-prev-button">
+            <a>&lt;</a>
+        </div>
+        <div class="ui-shuffling-button ui-shuffling-next-button">
+            <a>&gt;</a>
+        </div>
+    </div>
+    <script src="js/shuffling.js"></script>
+    <script>
+         window.shuffling.containeImage(4000);
+    </script>
+</body>
+</html>
