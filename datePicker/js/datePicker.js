@@ -3,12 +3,13 @@
 
     datepicker.getMonthDate=function(year,month) {
         var ret=[];
+        //获取当前年月
         if(!year||!month){
             var today=new Date();
             year=today.getFullYear();
             month=today.getMonth()+1;
         }
-
+        //计算显示的年月信息
         var firstDay=new Date(year,month-1,1);
         var firstDayWeekDay=firstDay.getDay();
         if (firstDayWeekDay===0){ firstDayWeekDay=7; }
@@ -23,6 +24,7 @@
         var lastDay=new Date(year,month,0);
         var lastDate=lastDay.getDate();
 
+        // 显示的日期
         for(var i=0;i<7*6;i++){
             var date=i+1-preMonthDayCount;
             var showDate=date;

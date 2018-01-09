@@ -4,7 +4,7 @@
     var monthDate;
     datepicker.buikdUi=function(year,month){
        monthDate=datepicker.getMonthDate(year,month);
-
+        //渲染日历
         var html='<div class="ui-datepicker-header">'+
                 '<a href="#" class="ui-datepicker-btn ui-datepicker-prev-btn">&lt;</a>'+
                 '<span class="ui-datepicker-curr-month">'+monthDate.year+'-'+monthDate.month+'</span>'+
@@ -40,12 +40,14 @@
 
             return html;
     };
+    //创建日历的包裹层
     datepicker.render=function(direction){
         var year,month;
         if(monthDate){
             year=monthDate.year;
             month=monthDate.month;
         }
+        //上一月
         if(direction==='prev'){
             month--;
             if(month===0){
@@ -53,6 +55,7 @@
                 year--;
             }
         }
+        //下一月
         if(direction==='next') month++;
         var html=datepicker.buikdUi(year,month);
         if(!$wrapper){
@@ -67,7 +70,7 @@
         datepicker.render();
         var $input=document.querySelector(input);
         var isOpen=false;
-
+        //显示和隐藏日历表
         $input.addEventListener('click',function(){
             if(isOpen){
                 $wrapper.classList.remove('ui-datepicker-wrapper-show');
@@ -83,7 +86,7 @@
             }
 
         },false);
-
+        //上一月，下一月按钮的点击事件
         $wrapper.addEventListener('click',function(e){
             var $target=e.target;
             if(!$target.classList.contains('ui-datepicker-btn'))
@@ -94,7 +97,7 @@
                 datepicker.render('next');
             }
         },false);
-
+        //日历表中具体日期的点击
         $wrapper.addEventListener('click',function(e){
             var $target=e.target;
             if($target.tagName.toLowerCase() !=='td') return;
