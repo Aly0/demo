@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vertical-align</title>
+    <style type="text/css">
+    *{
+        margin:0;
+        padding: 0;
+    }
+    .set-height{
+        margin-bottom:10px;
+        height:160px;
+    }
+    .look-me{
+        vertical-align: middle;
+    }
+    .test1{
+        background: #ddbbff;
+    }
+    .test2,.test5{
+        line-height:160px;
+        background: #d6ffbb;
+    }
+    .test3{
+        display: table-cell;
+        vertical-align: middle;
+        background: #e7ffbb;
+    }
+    .test4{
+        display: table-cell;
+        vertical-align: middle;
+        background: #feffbb;
+    }
+    .test4 span{
+        display: inline-block;
+        width:100px;
+        vertical-align: middle;
+    }
+    .test4 img{
+        vertical-align: middle;
+    }
+    .test5{
+        margin-top:10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="test1 set-height">
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+    </div>
+
+    <div class="test2 set-height">
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+    </div>
+
+    <div class="test3 set-height">
+        看我<img src="images/1.gif" alt=""/>看我
+    </div>
+
+    <div class="test4 set-height">
+        <span>看我</span><img src="images/1.gif" alt=""/><span>看我</span>
+    </div>
+
+    <div class="test5 set-height">
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+        看我<img src="images/1.gif" alt="" class="look-me"/>看我
+    </div>
+</body>
+</html>

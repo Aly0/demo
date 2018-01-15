@@ -1,7 +1,7 @@
 function myReady(fn){
     //对于现代浏览器，对DOMContentLoaded事件的处理采用标准的事件绑定方式
     if(document.addEventListener){
-        document,addEventListener('DOMContentLoaded',fn,false);
+        document.addEventListener('DOMContentLoaded',fn,false);
     }
     else{
         IEContentloaded(fn);
