@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟队列图表化</title>
+    <style type="text/css">
+    .container{
+        width: 500px;
+        height:400px;
+        margin:50px auto;
+        border:1px solid #ccc;
+        padding:30px;
+    }
+    .control{
+        display:inline-block;
+        height:30px;
+        padding:0;
+        border: 1px solid #ccc;
+        margin-right:8px;
+        vertical-align: bottom;
+        box-sizing: border-box;
+    }
+    .control-btn{
+        background: blue;
+        width: 60px;
+        color: #fff;
+    }
+    .show-box{
+        margin-top:20px;
+        height:80px;
+    }
+    .num{
+        display: inline-block;
+        padding:3px 12px;
+        background:red;
+        color: #fff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+    .chart-box{
+        padding:0 5px;
+        margin-top:30px;
+        text-align: center;
+        display: flex;
+        align-items:flex-end;
+        justify-content:center;
+        height:220px;
+    }
+    .bar-chart{
+        display: inline-block;
+        width: 20px;
+        background: red;
+        border: 1px solid #ccc;
+        margin-right: 6px;
+        
+    }
+    .sort{
+        float:right;
+    }
+    .sort .control{
+        background: #ccc;
+        width: 60px;
+        color: rgb(75, 71, 71);
+        border: 1px solid rgb(134, 133, 133);
+        outline: none;
+    }
+    </style>
+</head>
+<body>
+        <!-- 基于queue.html
+        限制输入的数字在10-100
+        队列元素数量最多限制为10个，当超过10个时，添加元素时alert出提示
+        队列展现方式变化，直接用高度表示数字大小
+        实现一个简单的排序功能，如冒泡排序（不限制具体算法），用可视化的方法表达出来 -->
+    <div class="container">
+        <div class="control-box">
+            <input type="text" class="control" id="num-input" placeholder="请输入10-100之间的数值"/>
+            <button class="control-btn control" id="left-in">左侧入</button>
+            <button class="control-btn control" id="right-in">右侧入</button>
+            <button class="control-btn control" id="left-out">左侧出</button>
+            <button class="control-btn control" id="right-out">右侧出</button>
+        </div>
+        <div class="show-box"></div>
+        <div class="sort"><button class="control" id="sort">排序</button></div>
+        <div class="chart-box">
+            <!-- <span class="bar-chart" style="height:200px"></span> -->
+        </div>
+
+    </div>
+    <script>
+        //输入框中仅为数字有效且在10-100之间
+        var input=document.getElementById('num-input');
+        var $showBox=document.querySelector('.show-box');
+        var $chart=document.querySelector('.chart-box');
+        document.getElementById('sort').style.display='none';
+        function checkInput(){
+            var value=input.value;
+            var reg=new RegExp('^[0-9]*$');
+            if(!reg.test(value)){
+                input.value=null;
+                alert('请输入数字');
+                return false;
+            }
+            else if(value<10||value>100){
+                input.value=null;
+                alert('请输入10-100之间的数值');
+                return false;
+            }
+            else{
+                return value;
+            }
+        }
+        
+        //创建存放输入数值的数组
+        var arr=new Array();
+
+        //左侧入
+        function leftIn(num){
+            if(arr.length<10||!arr.length){
+                arr.unshift(num);
+                return arr;
+            }
+            alert('最多10个数值');
+            return arr;
+        }
+        //右侧入
+        function rightIn(num){
+            if(arr.length<10||!arr.length){
+                arr.push(num);
+                return arr;
+            }
+            alert('最多10个数值');
+            return arr;
+        }
+        //左侧出
+        function leftOut(){
+            if(arr.length){
+                // arr.shift();
+                alert( arr.shift());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+        //右侧出
+        function rightOut(){
+            if(arr.length){
+                // arr.pop();
+                alert(arr.pop());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+
+        //点击移除
+        function remove(clickIndex){
+            arr.splice(clickIndex,1);
+            return arr;
+        }
+        
+
+        //冒泡排序
+        function sort(arr){
+            var temp;
+            for(var i=0;i<arr.length;i++){
+                arr[i]=Number(arr[i]);
+                for(var j=i+1;j<arr.length;j++){
+                    arr[j]=Number(arr[j]);
+                    if(arr[i]>arr[j]){
+                        temp=arr[i];
+                        arr[i]=arr[j];
+                        arr[j]=temp;
+                    }
+                }
+            }
+            return arr;
+        }
+
+
+
+
+        //队列渲染,图表化渲染
+        function showIn(arr){
+            $showBox.innerHTML='';
+            $chart.innerHTML='';
+            var height=100;
+            if(arr.length>1){
+                document.getElementById('sort').style.display='';
+            }
+            else{
+                document.getElementById('sort').style.display='none';
+            }
+            if(arr.length){
+                for(var i=0;i<arr.length;i++){
+                    var spanNum=document.createElement('span');
+                    var spanChart=document.createElement('span');
+                    spanNum.innerHTML=arr[i];
+                    spanNum.className='num';
+                    spanNum.setAttribute('index',i);
+                    $showBox.appendChild(spanNum);
+
+                    spanChart.className='bar-chart';
+                    spanChart.style.height=arr[i]/height*200+'px';
+                    $chart.appendChild(spanChart);
+                    input.value=null;
+                }
+                
+            }
+        }
+        
+
+
+        function init(){
+            var $leftIn=document.getElementById('left-in');
+            var $leftOut=document.getElementById('left-out');
+            var $rightIn=document.getElementById('right-in');
+            var $rightOut=document.getElementById('right-out');
+            
+
+            //左侧入事件
+            $leftIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=leftIn(num);
+                    showIn(arr);
+                }
+            },false);
+
+            //右侧入事件
+            $rightIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=rightIn(num);
+                    showIn(arr);
+                   
+
+                }
+            },false);
+
+             //左侧出事件
+             $leftOut.addEventListener('click',function(){
+                arr=leftOut();
+                showIn(arr);
+                
+            },false);
+
+             //右侧入事件
+             $rightOut.addEventListener('click',function(){
+                arr=rightOut();
+                showIn(arr);
+                
+            },false);
+
+            //点击数值移除
+            function removeIt(){
+                $showBox=document.querySelector('.show-box');
+                $showBox.addEventListener('click',function(e){
+                    var $target=e.target;
+                    if($target.innerHTML){
+                        var index=Number($target.getAttribute('index'));
+                        remove(index);
+                        showIn(arr);
+                        
+                    }
+                },false);
+
+            }
+            removeIt();
+
+            //排序按钮点击
+            var $sort=document.getElementById('sort');
+            $sort.addEventListener('click',function(){
+                sort(arr);
+                showIn(arr);
+
+            },false);
+        }
+
+        init();
+    </script>
+</body>
+</html>

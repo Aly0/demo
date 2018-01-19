@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟队列</title>
+    <style type="text/css">
+    .container{
+        width: 500px;
+        height:300px;
+        margin:50px auto;
+        border:1px solid #ccc;
+        padding:30px;
+    }
+    .control{
+        display:inline-block;
+        height:30px;
+        padding:0;
+        border: 1px solid #ccc;
+        margin-right:8px;
+        vertical-align: bottom;
+        box-sizing: border-box;
+    }
+    .control-btn{
+        background: blue;
+        width: 60px;
+        color: #fff;
+    }
+    .show-box{
+        margin-top:20px;
+    }
+    .num{
+        display: inline-block;
+        padding:3px 12px;
+        background:red;
+        color: #fff;
+        margin-right: 8px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<!-- 模拟一个队列，队列的每个元素是一个数字，初始队列为空
+有一个input输入框，以及4个操作按钮
+点击"左侧入"，将input中输入的数字从左侧插入队列中；
+点击"右侧入"，将input中输入的数字从右侧插入队列中；
+点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值；
+点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值；
+点击队列中任何一个元素，则该元素会被从队列中删除 -->
+    <div class="container">
+        <div class="control-box">
+            <input type="text" class="control" id="num-input"/>
+            <button class="control-btn control" id="left-in">左侧入</button>
+            <button class="control-btn control" id="right-in">右侧入</button>
+            <button class="control-btn control" id="left-out">左侧出</button>
+            <button class="control-btn control" id="right-out">右侧出</button>
+        </div>
+        <div class="show-box">
+        </div>
+    </div>
+    <script>
+        //输入框中仅为数字有效
+        var input=document.getElementById('num-input');
+        var $showBox=document.querySelector('.show-box');
+        function checkInput(){
+            var value=input.value;
+            var reg=new RegExp('^[1-9]+$');
+            if(!reg.test(value)){
+                input.value=null;
+                alert('请输入数字');
+                return false;
+            }
+            else{
+                return value;
+            }
+        }
+        
+        //创建存放输入数值的数组
+        var arr=new Array();
+
+        //左侧入
+        function leftIn(num){
+            arr.unshift(num);
+            return arr;
+        }
+        //右侧入
+        function rightIn(num){
+            arr.push(num);
+            return arr;
+        }
+        //左侧出
+        function leftOut(){
+            if(arr.length){
+                // arr.shift();
+                alert( arr.shift());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+        //右侧出
+        function rightOut(){
+            if(arr.length){
+                // arr.pop();
+                alert(arr.pop());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+
+        //点击移除
+        function remove(clickIndex){
+            arr.splice(clickIndex,1);
+            return arr;
+        }
+        
+        //队列渲染
+        function showIn(arr){
+            $showBox.innerHTML='';
+            if(arr.length){
+                for(var i=0;i<arr.length;i++){
+                    var span=document.createElement('span');
+                    span.innerHTML=arr[i];
+                    span.className='num';
+                    span.setAttribute('index',i);
+                    $showBox.appendChild(span);
+                    input.value=null;
+                }
+            }
+        }
+
+
+
+        function init(){
+            var $leftIn=document.getElementById('left-in');
+            var $leftOut=document.getElementById('left-out');
+            var $rightIn=document.getElementById('right-in');
+            var $rightOut=document.getElementById('right-out');
+            
+
+            //左侧入事件
+            $leftIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=leftIn(num);
+                    showIn(arr);
+                }
+            },false);
+
+            //右侧入事件
+            $rightIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=rightIn(num);
+                    showIn(arr);
+
+                }
+            },false);
+
+             //左侧出事件
+             $leftOut.addEventListener('click',function(){
+                arr=leftOut();
+                showIn(arr);
+            },false);
+
+             //右侧入事件
+             $rightOut.addEventListener('click',function(){
+                arr=rightOut();
+                showIn(arr);
+            },false);
+
+            //点击数值移除
+            function removeIt(){
+                $showBox=document.querySelector('.show-box');
+                $showBox.addEventListener('click',function(e){
+                    var $target=e.target;
+                    if($target.innerHTML){
+                        var index=Number($target.getAttribute('index'));
+                        remove(index);
+                        showIn(arr);
+                    }
+                },false);
+
+            }
+            removeIt();
+        }
+
+        init();
+    </script>
+</body>
+</html>

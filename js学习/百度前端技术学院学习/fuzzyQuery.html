@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多行输入框及模糊查询</title>
+    <style type="text/css">
+    .container{
+        width: 500px;
+        height:600px;
+        margin:50px auto;
+        border:1px solid #ccc;
+        padding:30px;
+    }
+    .control{
+        display:inline-block;
+        height:30px;
+        padding:0;
+        border: 1px solid #ccc;
+        margin-right:8px;
+        vertical-align: bottom;
+        box-sizing: border-box;
+    }
+    .control-btn{
+        background: blue;
+        width: 60px;
+        color: #fff;
+    }
+    .show-box{
+        margin-top:10px;
+       
+    }
+    .num{
+        display: inline-block;
+        padding:3px 12px;
+        background:red;
+        color: #fff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+    #text-textarea{
+        width:100%;
+        height:110px;
+        margin-bottom:10px;
+    }
+    .search-box{
+        float: right;
+        margin: 10px 0;
+    }
+    .search-btn{
+        background:rgb(92, 152, 221);
+        color: white;
+        width: 60px;
+    }
+    .clearfix{
+        zoom: 1;
+    }
+    .clearfix:after{
+        display: block;
+        height:0;
+        overflow:hidden;
+        content: '';
+        clear: both;
+
+    }
+    </style>
+</head>
+<body>
+<!-- 基于queue进行升级
+将新元素输入框从input改为textarea
+允许一次批量输入多个内容，格式可以为数字、中文、英文等，
+可以通过用回车，逗号（全角半角均可），
+顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔
+增加一个查询文本输入框，和一个查询按钮，
+当点击查询时，将查询词在各个元素内容中做模糊匹配，
+将匹配到的内容进行特殊标识，如文字颜色等。
+举例，内容中有abcd，查询词为ab或bc，则该内容需要标识 -->
+    <div class="container">
+        <!-- 操作框 -->
+        <div class="control-box">
+            <textarea col="10" row="5"  id="text-textarea"></textarea>
+            <button class="control-btn control" id="left-in">左侧入</button>
+            <button class="control-btn control" id="right-in">右侧入</button>
+            <button class="control-btn control" id="left-out">左侧出</button>
+            <button class="control-btn control" id="right-out">右侧出</button>
+        </div>
+        <!-- 搜索框 -->
+        <div class="clearfix">
+            <div class="search-box clearfix">
+                <input type="text" id="search-input" class="control"/>
+                <button class="control search-btn" id="search-btn">查找</button>
+            </div>
+        </div>
+        <!-- 渲染框 -->
+        <div class="show-box">
+        </div>
+    </div>
+    <script>
+        //输入框中仅为数字有效
+        var text=document.getElementById('text-textarea');
+        var $showBox=document.querySelector('.show-box');
+        function checkInput(){
+            var value=text.value;
+            if(!value.trim()){
+                alert('请输入内容');
+                return false;
+            }
+            else{
+                //分割字符串
+               var splitStr = value.split(/[,，、;；  \n\t]/);
+               //数组中去指定元素
+               Array.prototype.notempty = function(){
+                    return splitStr.filter(t => t!=undefined && t!==null &&t!="");
+                }
+                return Array.prototype.notempty();
+            }
+        }
+        
+        //创建存放输入数值的数组
+        var arr=new Array();
+
+        //左侧入
+        function leftIn(num){
+            arr=num.concat(arr);
+            return arr;
+        }
+        //右侧入
+        function rightIn(num){
+            arr=arr.concat(num);
+            return arr;
+        }
+        //左侧出
+        function leftOut(){
+            if(arr.length){
+                alert( arr.shift());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+        //右侧出
+        function rightOut(){
+            if(arr.length){
+                // arr.pop();
+                alert(arr.pop());
+                return arr;
+            }
+            else{
+                alert('没有数值了！');
+                return false;
+            }
+        }
+
+        //点击移除
+        function remove(clickIndex){
+            arr.splice(clickIndex,1);
+            return arr;
+        }
+        
+        //队列渲染
+        function showIn(arr){
+            $showBox.innerHTML='';
+            if(arr.length){
+                for(var i=0;i<arr.length;i++){
+                    var span=document.createElement('span');
+                    span.innerHTML=arr[i];
+                    span.className='num';
+                    span.setAttribute('index',i);
+                    $showBox.appendChild(span);
+                   text.value=null;
+                }
+            }
+        }
+
+        //模糊匹配
+        function fuzzyQuery(arr){
+            var $searchInput=document.getElementById('search-input');
+            var showBoxContains=$showBox.children;
+            for(var i=0;i<arr.length;i++){ 
+                if(arr[i].indexOf($searchInput.value)>-1){
+                    showBoxContains[i].style.backgroundColor='green';   
+                }
+            }
+        }
+
+
+        //重置样式
+        function showBoxReset(){
+            var showBoxContains=$showBox.children;
+            for(var i=0;i<showBoxContains.length;i++){
+                showBoxContains[i].style.backgroundColor='red';
+            }
+        }
+
+        function init(){
+            var $leftIn=document.getElementById('left-in');
+            var $leftOut=document.getElementById('left-out');
+            var $rightIn=document.getElementById('right-in');
+            var $rightOut=document.getElementById('right-out');
+            
+
+            //左侧入事件
+            $leftIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=leftIn(num);
+                    showIn(arr);
+                }
+            },false);
+
+            //右侧入事件
+            $rightIn.addEventListener('click',function(){
+                var num=checkInput();
+                if(num){
+                    arr=rightIn(num);
+                    showIn(arr);
+
+                }
+            },false);
+
+             //左侧出事件
+             $leftOut.addEventListener('click',function(){
+                arr=leftOut();
+                showIn(arr);
+            },false);
+
+             //右侧入事件
+             $rightOut.addEventListener('click',function(){
+                arr=rightOut();
+                showIn(arr);
+            },false);
+
+            //点击数值移除
+            function removeIt(){
+                $showBox=document.querySelector('.show-box');
+                $showBox.addEventListener('click',function(e){
+                    var $target=e.target;
+                    if($target.innerHTML){
+                        var index=Number($target.getAttribute('index'));//获取点击的标签的索引
+                        remove(index);//从数组中移除
+                        showIn(arr);//重新渲染
+                    }
+                },false);
+
+            }
+            removeIt();
+
+
+            //查询
+            var $searchBtn=document.getElementById('search-btn');
+            $searchBtn.addEventListener('click',function(){
+                showBoxReset();//重置样式
+                fuzzyQuery(arr);//查询
+            },false);
+        }
+
+        init();
+    </script>
+</body>
+</html>

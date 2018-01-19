@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js循环</title>
+</head>
+<body>
+    <script>
+        var arr=[1,2,3,4,5];
+        var obj={a:1,b:2,c:[1,2,3],d:{name:'xx',age:18}}
+        var str='abcdefghijklmn';
+
+
+        //forEach 不能中断
+        arr.forEach((value)=>{
+            document.write(value);
+        });
+        arr.forEach(function(value){
+            document.write(value);
+        });
+        document.write('&nbsp;&nbsp;');
+        document.write('<br />');
+
+
+        //for in 不能保证顺序，数组不推荐
+        for(var index in arr){
+            document.write(arr[index]);
+        }
+        document.write('&nbsp;&nbsp;');
+
+        for(var key in obj){
+            document.write(obj[key]);
+        }
+        document.write('&nbsp;&nbsp;&nbsp;&nbsp;');
+        for(var index in str){
+            document.write(str[index]);
+            document.write('&nbsp;');
+        }
+        document.write('<br />');
+
+        //for of
+        for(var value of arr){
+            document.write(value);
+        }
+        document.write('&nbsp;&nbsp;');
+        for(var value of str){
+            document.write(value);
+            document.write('&nbsp;');
+        }
+
+
+        //二分法查找 递归
+        function binarySearch(data,dest,star,end){
+            var end=end||data.length-1,
+                start=star||0,
+                m=Math.floor((start+end)/2);
+                if (data[m]==dest){
+                    return m;
+                }
+                if(dest<data[m]){
+                    return binarySearch(data,dest,0,m-1);
+                }
+                else{
+                    return binarySearch(data,dest,m+1,end);
+                }
+                return false;
+        }
+
+
+        
+        //非递归
+        function bSearch(data,dest){
+            var h=data.length-1,
+                l=0;
+                while(l<=h){
+                    var m=Math.floor((h+l)/2);
+                    if(data[m]==dest){
+                        return m;
+                    }
+                    if(dest>[m]){
+                        l=m+1;
+
+                    }
+                    else{
+                        h=m-1;
+                    }
+                }
+                return false;
+
+        }
+       
+
+         //归并
+         function mergeSort(arr){
+             var len=arr.length;
+             if(len<2){
+                 return arr;
+             }
+             var middle=Math.floor(len/2),
+             left=arr.slice(0,middle),
+             right=arr.slice(middle);
+            //  console.log(left);
+            //  console.log(right);
+             return merge(mergeSort(left),mergeSort(right));
+         }
+         function merge(left,right){
+             var result=[];
+             while(left.length&&right.length){
+                 if(left[0]<=right[0]){
+                     result.push(left.shift());
+                 }
+                 else{
+                    result.push(right.shift());
+                 }
+             }
+             while(left.length){
+                result.push(left.shift());
+             }
+             while(right.length){
+                result.push(right.shift());
+             }
+             return result;
+         }
+
+
+         var array=[1,2,3,4,5,6,7,8,9];
+         var array0=[2,3,1,53,46,-24,4,22,79,0,-26];
+        console.log(binarySearch(array,7));
+        console.log(bSearch(array,7));
+         console.log(mergeSort(array0));
+    </script>
+</body>
+</html>
