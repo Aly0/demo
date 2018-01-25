@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>manyTree</title>
+    <style type="text/css">
+    .root,.level1,.level2,.level3,.level4{
+        box-sizing: border-box;
+        padding:14px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content:center;
+        align-items:center;
+    }
+    .root{
+        width: 800px;
+        height:300px;
+        margin:50px auto;
+    }
+    .level1,.level2,.level3,.level4{
+        /* width: 45%; */
+        height:90%;
+        flex:1;
+    }
+    .control{
+        margin: 10px auto;
+        text-align: center;
+    }
+    .control button{
+        display: inline-block;
+        padding:5px 12px;
+        margin-right:20px;
+        background: blue;
+        color: #fff;
+        border: 1px solid blue;
+        vertical-align:bottom;
+    }
+    .control input{
+        display: inline-block;
+        padding:6px 12px;
+        border: 1px solid blue;
+        vertical-align:bottom;
+    }
+    </style>
+</head>
+<body>
+        <!-- 将二叉树变成了多叉树，并且每一个节点中带有内容;
+        提供一个按钮，显示开始遍历，点击后，以动画的形式呈现遍历的过程
+        当前被遍历到的节点做一个特殊显示（比如不同的颜色）;
+        每隔一段时间（500ms，1s等时间自定）再遍历下一个节点;
+        增加一个输入框及一个“查询”按钮，点击按钮时，
+        开始在树中以动画形式查找节点内容和输入框中内容一致的节点，
+        找到后以特殊样式显示该节点，找不到的话给出找不到的提示。
+        查询过程中的展示过程和遍历过程保持一致 -->
+    <div class="root" index="0">
+        根节点
+        <div class="level1" index="1">
+            一层1
+            <div class="level2" index="2">
+                二层1
+                <div class="level3">三层1</div>
+                <div class="level3">三层2</div>
+                <div class="level3">三层3</div>
+            </div>
+            <div class="level2" index="3">
+                    二层2
+                <div class="level3">
+                    三层4
+                    <div class="level4">四层1</div>
+                </div>
+            </div>
+        </div>
+        <div class="level1" index="4">
+            一层2
+            <div class="level2" index="5"> 二层3</div>
+            <div class="level2" index="6"> 二层4</div>
+            <div class="level2" index="6"> 二层5</div>
+            <div class="level2" index="6"> 二层6</div>
+        </div>
+    </div>
+    <div class="control">
+        <button id="deep-first">深度优先</button>
+        <button id="breadth-first">广度优先</button>
+        <input type="text" id="search-input">
+        <button id="search-btn">查询</button>
+    </div>
+
+
+    <script>
+    var $root=document.querySelector('.root');
+    var $deep=document.getElementById('deep-first');
+    var $breadth=document.getElementById('breadth-first');
+    var searchInput = document.getElementById('search-input');
+    var searchBtn = document.getElementById('search-btn');
+    var arr=[];
+    var last; //当前节点的前一个节点
+    var toggle = false;  //控制遍历显示值只执行一次
+
+
+    //深度优先遍历
+    function deepTraverse(currentNode){
+        if(!(currentNode==null)){
+            arr.push(currentNode);
+            var len = currentNode.children.length;
+            for(var i = 0;i < len ;i ++){
+               deepTraverse(currentNode.children[i]);
+
+            }    
+        }
+    }   
+
+    //广度优先遍历
+    function breadthTraverse(currentNode){
+        var queue =[];
+        if(!(currentNode==null)){
+             queue.push(currentNode);
+             while(queue.length>0){
+                var item = queue.shift();
+                 arr.push(item);
+                 if(item.children.length > 0){
+                    for(var i = 0;i<item.children.length;i++){
+                        queue.push(item.children[i]);
+                    }
+                    // queue.concat(item.children);
+                 }   
+             }
+            
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    var search1 = {
+        i : 0,
+        timer : 0
+    };
+    //搜索
+    function search(array,searchText){
+               if( search1.i< array.length){
+                var innerTextStr =  array[search1.i].innerText;
+                var check = innerTextStr.indexOf(searchText);
+                
+                 if(last){
+                    last.style.backgroundColor='#fff';
+                 }
+                 if(check == 0){
+                    clearInterval(search1.timer);
+                    toggle = false;
+                 }
+                 array[search1.i].style.backgroundColor='red';
+                 last = array[search1.i];
+
+                 search1.i+=1;
+               } 
+                else{
+                    clearInterval(search1.timer);
+                    alert('查找节点不存在');
+                    toggle = false;
+                }
+    }
+
+    //初始化
+    function reset(){
+        arr = [];
+        search1 = {
+        i : 0,
+        timer : 0
+        };
+        if(last){
+            last.style.backgroundColor='#fff';
+        }
+    }
+
+    //渲染
+    function showOrder(array){
+        for(var i  = 0;i < array.length;i++){
+            setTimeout(function(i){
+                return function(){
+                    if(i == array.length-1){
+                            toggle = false;
+                        }
+                    if(last){
+                        last.style.backgroundColor='#fff';
+                    }
+                    array[i].style.backgroundColor='red';
+                    last = array[i];
+                }
+            }(i),1000*i);
+        }
+    }
+
+    function init(){
+        $breadth.addEventListener('click',function(){
+            if(!toggle){
+                toggle = true;
+                reset();
+                breadthTraverse($root);
+                showOrder(arr);
+            }
+            
+        },false);
+
+        $deep.addEventListener('click',function(){
+            if(!toggle){
+                toggle = true;
+                reset();
+                deepTraverse($root);
+                showOrder(arr);
+            }
+            
+        },false);
+
+
+        searchBtn.addEventListener('click',function(){
+            var val = searchInput.value;
+            if(!toggle){
+                toggle = true;
+                reset();
+                deepTraverse($root);
+                search1.timer=setInterval(function(){
+                    search(arr,val);
+                },1000);
+            }
+            
+        },false);
+
+        
+    }
+   init();
+    </script>
+</body>
+</html>

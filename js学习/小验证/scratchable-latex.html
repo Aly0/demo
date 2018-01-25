@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>九宫格抽奖</title>
+    <style type="text/css">
+    .box{
+        margin: 200px;
+        width: 420px;
+        height:420px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        padding:10px;
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap:wrap;
+        justify-content: space-between;
+
+    }
+    .in-box li{
+        list-style: none;
+    }
+    .in-box{
+        display: inline-block;
+        width: 120px;
+        border:1px solid #666;
+        margin:3px;
+    }
+    .active{
+        background: lightgoldenrodyellow;
+        border-color:yellow;
+    }
+    </style>
+</head>
+<body>
+    <ul class="box">
+        <li class="in-box-0 in-box">0</li>
+        <li class="in-box-1 in-box">1</li>
+        <li class="in-box-2 in-box">2</li>
+        <li class="in-box-7 in-box">7</li>
+        <a class="in-box" id="start">开始</a>
+        <li class="in-box-3 in-box">3</li>
+        <li class="in-box-6 in-box">6</li>
+        <li class="in-box-5 in-box">5</li>
+        <li class="in-box-4 in-box">4</li>
+    </ul>
+    <script>
+        var box=document.querySelector('.box');
+        var inBox=document.querySelector('.in-box');
+        var start=document.getElementById('start');
+        var li = box.getElementsByTagName('li');
+        var prize = {
+            index : -1,
+            timer : 0,
+            times : 0, //转动次数
+            cycle : 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+            winning : -1, //中奖位置
+            click : false,
+            speed : 20
+        }
+        function probability(){
+            var rand = Math.random()*100;
+            if(rand <5) return 0;
+            else if(rand <12) return 1;
+            else if(rand <20) return 2;
+            else if(rand <30) return 3;
+            else if(rand <45) return 4;
+            else if(rand <61) return 5;
+            else if(rand <80) return 6;
+            else return 7;
+        }
+
+        function roll(){
+            var index = prize.index;
+            prize.times += 1;
+            if(index>-1){
+                 box.querySelector('.in-box-'+ index).classList.remove('active');
+            }
+            index += 1;
+            if(index > li.length-1){
+                index = 0;
+            }
+            box.querySelector('.in-box-'+ index).classList.add('active');
+            prize.index = index;
+            if(prize.times > prize.cycle + 10 && prize.index == prize.winning){
+                clearTimeout(prize.timer);
+                prize.click = false;
+                prize.winning = -1;
+                prize.times = 0;
+            }
+            else{
+                if(prize.times < prize.cycle){
+                    prize.speed -= 10;
+                }
+                else if(prize.times == prize.cycle){
+                    prize.winning =  probability();
+                    console.log(prize.winning);
+                }
+
+                else{
+                    prize.speed += 20;
+                }
+                if (prize.speed < 40){
+                    prize.speed = 40;
+                }
+                prize.timer = setTimeout(roll,prize.speed);
+            }
+            return false;
+        }
+
+        
+        window.onload=function(){
+            
+            start.addEventListener('click',function(){
+                if(prize.click){
+                    return false;
+                }
+                else{
+                    prize.speed = 100;
+                    roll();
+                    prize.click = true;
+                    return false;
+                }
+            },false);
+
+        }
+    </script>
+</body>
+</html>

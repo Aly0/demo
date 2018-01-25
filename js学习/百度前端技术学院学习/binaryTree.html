@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>binaryTree</title>
+    <style type="text/css">
+    .root,.level1,.level2{
+        box-sizing: border-box;
+        padding:14px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content:center;
+        align-items:center;
+    }
+    .root{
+        width: 600px;
+        height:300px;
+        margin:50px auto;
+    }
+    .level1{
+        width: 45%;
+        height:90%;
+
+    }
+    .level2{
+        width: 45%;
+        height:90%;
+        
+    }
+    .control{
+        margin: 10px auto;
+        text-align: center;
+    }
+    .control button{
+        display: inline-block;
+        padding:5px 12px;
+        margin-right:20px;
+        background: blue;
+        color: #fff;
+        border: 1px solid blue;
+    }
+    </style>
+</head>
+<body>
+    <div class="root" index="0">
+        <div class="level1" index="1">
+            <div class="level2" index="2"></div>
+            <div class="level2" index="3"></div>
+        </div>
+        <div class="level1" index="4">
+            <div class="level2" index="5"></div>
+            <div class="level2" index="6"></div>
+        </div>
+    </div>
+    <div class="control">
+        <button id="first">先序遍历</button>
+        <button id="middle">中序遍历</button>
+        <button id="last">后序遍历</button>
+    </div>
+
+
+    <script>
+    var $root=document.querySelector('.root');
+    var $first=document.getElementById('first');
+    var $middle=document.getElementById('middle');
+    var $last=document.getElementById('last');
+    var arr=[];
+    var last;
+    var toggle = false;
+    //先序
+    function firstTraverse(currentNode){
+        if(!(currentNode==null)){
+            arr.push(currentNode);
+            firstTraverse(currentNode.firstElementChild);
+            firstTraverse(currentNode.lastElementChild);    
+        }
+    }   
+
+    //中序
+    function middleTraverse(currentNode){
+        if(!(currentNode==null)){
+            middleTraverse(currentNode.firstElementChild);
+            arr.push(currentNode);
+            middleTraverse(currentNode.lastElementChild);    
+        }
+    }
+    
+    //后序
+    function lastTraverse(currentNode){
+        if(!(currentNode==null)){
+            lastTraverse(currentNode.firstElementChild);
+            lastTraverse(currentNode.lastElementChild);
+            arr.push(currentNode);
+        }
+    }
+
+    //初始化
+    function reset(){
+        arr = [];
+        if(last){
+            last.style.backgroundColor='#fff';
+        }
+    }
+
+    //渲染
+    function showOrder(){
+        for(var i  = 0;i < arr.length;i++){
+            setTimeout(function(i){
+                return function(){
+                    if(i == arr.length-1){
+                            toggle = false;
+                        }
+                    if(last){
+                        last.style.backgroundColor='#fff';
+                    }
+                    arr[i].style.backgroundColor='red';
+                    last = arr[i];
+                }
+            }(i),1000*i);
+        }
+    }
+
+    function init(){
+        $first.addEventListener('click',function(){
+            if(!toggle){
+                toggle = true;
+                reset();
+                firstTraverse($root);
+                showOrder();
+            }
+            
+        },false);
+        $middle.addEventListener('click',function(){
+            if(!toggle){
+                toggle = true;
+                reset();
+                middleTraverse($root);
+                showOrder();
+            }
+            
+        },false);
+        $last.addEventListener('click',function(){
+            if(!toggle){
+                toggle = true;
+                reset();
+                lastTraverse($root);
+                showOrder();
+            }
+            
+        },false);
+        
+    }
+    init();
+    </script>
+</body>
+</html>
